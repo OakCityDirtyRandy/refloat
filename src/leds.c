@@ -350,6 +350,12 @@ static void anim_rainbow_roll(Leds *leds, const LedStrip *strip, float time) {
     }
 }
 
+static void anim_rasta_fade(Leds *leds, const LedStrip *strip, float time) {
+    const uint32_t rasta_colors[] = {0x00FF0000, 0x00FF8020, 0x0000FF00};
+    uint8_t offset = fmodf(time, 1.0f) * 2;
+    strip_set_color(leds, strip, rasta_colors[offset], strip->brightness, 1.0f);
+}
+
 static void led_strip_animate(Leds *leds, const LedStrip *strip, const LedBar *bar, float time) {
     time *= bar->speed;
 
@@ -380,6 +386,9 @@ static void led_strip_animate(Leds *leds, const LedStrip *strip, const LedBar *b
         break;
     case LED_ANIM_RAINBOW_ROLL:
         anim_rainbow_roll(leds, strip, time);
+        break;
+    case LED_ANIM_RASTA_FADE:
+        anim_rasta_fade(leds, strip, time);
         break;
     }
 }
